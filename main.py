@@ -6,13 +6,8 @@ main.py — консольное меню интернет-магазина с �
 ничего о ролях, оно знает только, какое ПРАВО нужно для каждого пункта.
 """
 
-# Сначала пробуем настоящий модуль напарницы, если его нет — берём заглушку
-try:
-    from rbac import load_system, authenticate, check_access
-    RBAC_SOURCE = "rbac.py"
-except ImportError:
-    from rbac_stub import load_system, authenticate, check_access
-    RBAC_SOURCE = "rbac_stub.py (заглушка)"
+# Функции ядра RBAC (модуль rbac.py)
+from rbac import load_system, authenticate, check_access, RBACConfigError
 
 MAX_ATTEMPTS = 3  # число попыток входа
 
@@ -110,8 +105,15 @@ def show_menu(user):
 
 
 def main():
-    users = load_system("data.json")
-    print(f"Интернет-магазин. Модуль доступа: {RBAC_SOURCE}")
+    # Если data.json битый или ссылается на несуществующую роль/право,
+    # rbac.py бросает RBACConfigError. Показываем понятное сообщение
+    # вместо длинной ошибки Python и не запускаем меню.
+    try:
+        users = load_system("data.json")
+    except RBACConfigError as e:
+        print(f"Ошибка загрузки данных: {e}")
+        return
+    print("Интернет-магазин.")
     user = login(users)
     while user is not None:
         show_menu(user)

@@ -4,15 +4,21 @@ classDiagram
         +str username
         +str password_hash
         +set~Role~ roles
+        +assign_role(role) None
+        +check_password(password) bool
         +has_permission(name) bool
     }
     class Role {
         +str name
         +set~Permission~ permissions
+        +add_permission(permission) None
+        +has_permission(name) bool
     }
     class Permission {
         +str name
         +str description
+        +__eq__(other) bool
+        +__hash__() int
     }
     User "0..*" -- "1..*" Role : назначена
     Role "0..*" -- "1..*" Permission : содержит
