@@ -1,0 +1,18 @@
+classDiagram
+    direction LR
+    class User {
+        +str username
+        +str password_hash
+        +set~Role~ roles
+        +has_permission(name) bool
+    }
+    class Role {
+        +str name
+        +set~Permission~ permissions
+    }
+    class Permission {
+        +str name
+        +str description
+    }
+    User "0..*" -- "1..*" Role : назначена
+    Role "0..*" -- "1..*" Permission : содержит

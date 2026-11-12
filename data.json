@@ -1,0 +1,22 @@
+{
+  "permissions": [
+    {"name": "catalog:read",   "description": "Просмотр каталога товаров"},
+    {"name": "cart:manage",    "description": "Управление корзиной и оформление заказа"},
+    {"name": "orders:process", "description": "Обработка заказов и смена их статусов"},
+    {"name": "products:write", "description": "Добавление и редактирование товаров"},
+    {"name": "users:ban",      "description": "Блокировка пользователей"}
+  ],
+  "roles": [
+    {"name": "Клиент",               "permissions": ["catalog:read", "cart:manage"]},
+    {"name": "Менеджер по продажам", "permissions": ["catalog:read", "orders:process"]},
+    {"name": "Контент-менеджер",     "permissions": ["catalog:read", "products:write"]},
+    {"name": "Администратор",        "permissions": ["catalog:read", "orders:process", "products:write", "users:ban"]}
+  ],
+  "users": [
+    {"username": "client",  "password": "client123",  "roles": ["Клиент"]},
+    {"username": "manager", "password": "manager123", "roles": ["Менеджер по продажам"]},
+    {"username": "content", "password": "content123", "roles": ["Контент-менеджер"]},
+    {"username": "admin",   "password": "admin123",   "roles": ["Администратор"]},
+    {"username": "blogger", "password": "blogger123", "roles": ["Клиент", "Контент-менеджер"]}
+  ]
+}
